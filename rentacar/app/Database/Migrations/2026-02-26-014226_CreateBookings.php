@@ -41,6 +41,17 @@ class CreateBookings extends Migration
                 'type' => 'DATETIME',
                 'null' => true,
             ],
+
+            'bookings' => [
+                'id' => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+                'user_id' => ['type' => 'INT', 'constraint' => 11],
+                'car_id' => ['type' => 'INT', 'constraint' => 11],
+                'start_date' => ['type' => 'DATE'],
+                'end_date' => ['type' => 'DATE'],
+                'status' => ['type' => 'ENUM', 'constraint' => ['pending', 'approved', 'rejected'], 'default' => 'pending'],
+                'created_at' => ['type' => 'DATETIME', 'null' => true],
+                'updated_at' => ['type' => 'DATETIME', 'null' => true],
+            ]
         ]);
 
         $this->forge->addKey('id', true);

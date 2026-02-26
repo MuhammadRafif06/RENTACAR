@@ -23,3 +23,16 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('cars/update/(:num)', 'Admin\Car::update/$1');
     $routes->post('cars/delete/(:num)', 'Admin\Car::delete/$1');
 });
+
+$routes->get('/', 'Home::index');
+$routes->get('cars/(:num)', 'Home::detail/$1');
+
+$routes->group('api', function($routes) {
+
+    $routes->get('cars', 'Api::cars');
+    $routes->get('cars/(:num)', 'Api::car/$1');
+
+    $routes->post('bookings', 'Api::createBooking');
+    $routes->get('bookings', 'Api::bookings');
+
+});
