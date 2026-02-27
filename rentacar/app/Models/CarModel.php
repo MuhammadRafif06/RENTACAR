@@ -10,6 +10,7 @@ class CarModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
+        'category_id',
         'brand',
         'model',
         'year',
