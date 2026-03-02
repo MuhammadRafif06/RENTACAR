@@ -18,7 +18,6 @@ $routes->get('/logout', 'Auth::logout');
 // USER
 $routes->get('cars/(:num)', 'Home::detail/$1');
 $routes->post('cars/book/(:num)', 'Home::book/$1');
-$routes->get('user/dashboard', 'User\Dashboard::index', ['filter' => 'auth']);
 
 // ADMIN
 $routes->group('admin', ['filter' => 'admin'], function ($routes) {

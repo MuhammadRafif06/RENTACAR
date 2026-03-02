@@ -25,55 +25,35 @@ class Auth extends BaseController
 
     public function processRegister()
     {
-        // data user
         $data = [
             'name' => $this->request->getPost('name'),
             'email' => $this->request->getPost('email'),
-            'password' => password_hash(
-                $this->request->getPost('password'),
-                PASSWORD_DEFAULT
-            ),
+            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
             'role' => 'user',
             'created_at' => date('Y-m-d H:i:s')
         ];
 
-        // insert sekali saja
-        $userId = $this->userModel->insert($data);
+        $this->userModel->insert($data);
 
-        // ambil user yang baru dibuat
-        $user = $this->userModel->find($userId);
-
-        // auto login
-        session()->set([
-            'id'        => $user['id'],
-            'name'      => $user['name'],
-            'role'      => $user['role'],
-            'logged_in' => true
-        ]);
-
-        // langsung ke dashboard user
-        return redirect()->to('/user/dashboard');
+        return redirect()->to('/login')->with('success','Register berhasil');
     }
 
     public function processLogin()
     {
-        $email    = $this->request->getPost('email');
+        $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
 
-        $user = $this->userModel
-            ->where('email', $email)
-            ->first();
+        $user = $this->userModel->where('email',$email)->first();
 
         if ($user && password_verify($password, $user['password'])) {
 
             session()->set([
-                'id'        => $user['id'],
-                'name'      => $user['name'],
-                'role'      => $user['role'],
+                'id' => $user['id'],
+                'name' => $user['name'],
+                'role' => $user['role'],
                 'logged_in' => true
             ]);
 
-            // redirect berdasarkan role
             if ($user['role'] == 'admin') {
                 return redirect()->to('/admin/dashboard');
             } elseif ($user['role'] == 'employee') {
@@ -83,8 +63,7 @@ class Auth extends BaseController
             }
         }
 
-        return redirect()->back()
-            ->with('error', 'Email atau password salah');
+        return redirect()->back()->with('error','Email atau password salah');
     }
 
     public function logout()
