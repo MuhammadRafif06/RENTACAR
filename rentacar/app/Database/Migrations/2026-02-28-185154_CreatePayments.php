@@ -10,27 +10,27 @@ class CreatePayments extends Migration
     {
         $this->forge->addField([
             'id' => [
-                'type' => 'INT',
-                'unsigned' => true,
+                'type'           => 'INT',
+                'unsigned'       => true,
                 'auto_increment' => true,
             ],
             'booking_id' => [
-                'type' => 'INT',
+                'type'     => 'INT',
                 'unsigned' => true,
             ],
             'amount' => [
-                'type' => 'DECIMAL',
+                'type'       => 'DECIMAL',
                 'constraint' => '10,2',
             ],
             'payment_method' => [
-                'type' => 'VARCHAR',
+                'type'       => 'VARCHAR',
                 'constraint' => 50,
-                'null' => true,
+                'null'       => true,
             ],
             'payment_status' => [
-                'type' => 'ENUM',
+                'type'       => 'ENUM',
                 'constraint' => ['pending', 'paid', 'failed'],
-                'default' => 'pending',
+                'default'    => 'pending',
             ],
             'paid_at' => [
                 'type' => 'DATETIME',
@@ -39,7 +39,15 @@ class CreatePayments extends Migration
         ]);
 
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('booking_id', 'bookings', 'id', 'CASCADE', 'CASCADE');
+
+        $this->forge->addForeignKey(
+            'booking_id',
+            'bookings',
+            'id',
+            'CASCADE',
+            'CASCADE'
+        );
+
         $this->forge->createTable('payments');
     }
 
