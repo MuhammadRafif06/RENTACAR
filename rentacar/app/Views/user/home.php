@@ -21,14 +21,21 @@
                 <ul class="navbar-nav">
                     <?php if (session()->get('logged_in')): ?>
                         <li class="nav-item">
-                            <span class="nav-link">Hi, <?= session()->get('name') ?></span>
+                            <span class="nav-link text-light">
+                                Hi, <?= session()->get('name') ?>
+                            </span>
                         </li>
+
                         <li class="nav-item">
-                            <a href="/logout" class="nav-link text-danger">Logout</a>
+                            <a href="<?= site_url('history') ?>" class="nav-link text-white">
+                                History
+                            </a>
                         </li>
-                    <?php else: ?>
+
                         <li class="nav-item">
-                            <a href="/login" class="nav-link">Login</a>
+                            <a href="/logout" class="nav-link text-danger">
+                                Logout
+                            </a>
                         </li>
                     <?php endif; ?>
                 </ul>

@@ -1,70 +1,110 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="UTF-8">
-    <title><?= esc($car['brand']) ?> <?= esc($car['model']) ?></title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Booking Mobil</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= base_url('assets/css/detail.css') ?>" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 
-<body class="bg-gray-100">
+<body>
 
-    <div class="max-w-5xl mx-auto py-12 px-6">
+<div class="container detail-wrapper">
 
-        <a href="/" class="text-blue-600 font-bold mb-6 inline-block">
-            ← Back
-        </a>
+    <div class="row g-5 align-items-start">
 
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden grid md:grid-cols-2">
+        <!-- LEFT SIDE -->
+        <div class="col-lg-6">
 
-            <div class="bg-gray-100 flex items-center justify-center p-6">
-                <?php if ($car['image']): ?>
-                    <img src="<?= base_url('uploads/' . $car['image']) ?>" class="h-80 object-contain">
+            <div class="car-preview">
+
+                <?php if($car['image']): ?>
+                    <img src="<?= base_url('uploads/'.$car['image']) ?>">
+                <?php else: ?>
+                    <img src="https://via.placeholder.com/600x320">
                 <?php endif; ?>
+
+                <div class="p-4">
+                    <h3 class="fw-bold mb-2">
+                        <?= esc($car['brand']) ?> <?= esc($car['model']) ?>
+                    </h3>
+
+                    <p class="text-secondary mb-2">
+                        <?= esc($car['year']) ?> • <?= esc($car['category'] ?? 'Premium Class') ?>
+                    </p>
+
+                    <h4 class="text-danger fw-bold">
+                        Rp <?= number_format($car['price_per_day'],0,',','.') ?> / day
+                    </h4>
+                </div>
+
             </div>
 
-            <div class="p-8">
+        </div>
 
-                <h1 class="text-3xl font-extrabold mb-2">
-                    <?= esc($car['brand']) ?> <?= esc($car['model']) ?>
-                </h1>
+        <!-- RIGHT SIDE -->
+        <div class="col-lg-6">
 
-                <p class="text-gray-500 mb-4">
-                    Year <?= esc($car['year']) ?>
-                </p>
+            <div class="booking-card">
 
-                <p class="text-2xl font-bold text-blue-600 mb-6">
-                    $<?= esc($car['price_per_day']) ?> / day
-                </p>
+                <h4 class="fw-bold mb-4">Form Booking</h4>
 
-                <hr class="mb-6">
+                <form method="post" action="<?= site_url('cars/book/'.$car['id']) ?>">
 
-                <h3 class="font-bold mb-4">Book This Car</h3>
+                    <?= csrf_field() ?>
 
-                <form method="POST" action="<?= site_url('cars/book/' . $car['id']) ?>">
-
-                    <div class="mb-4">
-                        <label class="block text-sm font-semibold mb-1">Start Date</label>
-                        <input type="date" name="start_date" required class="w-full border rounded-lg px-3 py-2">
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal Mulai</label>
+                        <input type="date" name="tanggal_mulai" id="startDate" class="form-control" required>
                     </div>
 
-                    <div class="mb-6">
-                        <label class="block text-sm font-semibold mb-1">End Date</label>
-                        <input type="date" name="end_date" required class="w-full border rounded-lg px-3 py-2">
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal Selesai</label>
+                        <input type="date" name="tanggal_selesai" id="endDate" class="form-control" required>
                     </div>
 
-                    <button
-                        class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition">
-                        Confirm Booking
+                    <div class="mb-4 total-box">
+                        <small class="text-secondary">Total Harga</small>
+                        <h4 class="text-danger fw-bold" id="totalPrice">Rp 0</h4>
+                    </div>
+
+                    <button type="submit" class="btn btn-book w-100 py-2">
+                        Konfirmasi Booking
                     </button>
 
                 </form>
 
             </div>
+
         </div>
 
     </div>
 
-</body>
+</div>
 
+<script>
+const pricePerDay = <?= $car['price_per_day'] ?>;
+const startInput = document.getElementById('startDate');
+const endInput = document.getElementById('endDate');
+const totalEl = document.getElementById('totalPrice');
+
+function calculateTotal() {
+    const start = new Date(startInput.value);
+    const end = new Date(endInput.value);
+
+    if(start && end && end >= start) {
+        const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) || 1;
+        const total = days * pricePerDay;
+        totalEl.innerText = "Rp " + total.toLocaleString('id-ID');
+    } else {
+        totalEl.innerText = "Rp 0";
+    }
+}
+
+startInput.addEventListener('change', calculateTotal);
+endInput.addEventListener('change', calculateTotal);
+</script>
+
+</body>
 </html>

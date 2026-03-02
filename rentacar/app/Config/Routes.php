@@ -25,13 +25,15 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
 
     $routes->get('dashboard', 'Admin\Dashboard::index');
 
-    $routes->get('cars', 'Admin\Car::index');
+    $routes->get('cars', 'Admin\Car::index');   
     $routes->get('cars/create', 'Admin\Car::create');
     $routes->post('cars/store', 'Admin\Car::store');
     $routes->get('cars/edit/(:num)', 'Admin\Car::edit/$1');
     $routes->post('cars/update/(:num)', 'Admin\Car::update/$1');
     $routes->post('cars/delete/(:num)', 'Admin\Car::delete/$1');
 });
+
+    $routes->get('history', 'Home::history', ['filter' => 'auth']);
 
 // API
 $routes->group('api', function($routes) {
