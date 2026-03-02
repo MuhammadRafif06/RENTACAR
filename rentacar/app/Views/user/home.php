@@ -1,148 +1,80 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
+<html>
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AutoLease Elite</title>
-
-    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-
+    <meta charset="UTF-8">
+    <title>RentACar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
-        rel="stylesheet" />
-
-    <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#137fec",
-                        background: "#101922"
-                    },
-                    fontFamily: {
-                        display: ["Plus Jakarta Sans"]
-                    }
-                }
-            }
-        }
-    </script>
-
+        rel="stylesheet">
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
     </style>
-
 </head>
 
-<body class="bg-background text-white">
+<body class="bg-gray-50">
 
-    <!-- HEADER -->
-    <header class="flex justify-between items-center px-10 py-6 border-b border-slate-800">
-
-        <h2 class="text-2xl font-extrabold text-primary">
-            AutoLease
-        </h2>
-
-        <nav class="flex gap-8 text-sm font-semibold text-slate-400">
-            <a href="/" class="text-primary">Home</a>
-            <a href="#">My Bookings</a>
-            <a href="#">Contact</a>
-        </nav>
-
-    </header>
-
+    <!-- NAVBAR -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-extrabold text-blue-600">RentACar</h1>
+            <a href="/login" class="text-sm font-semibold text-gray-600 hover:text-blue-600">Login</a>
+        </div>
+    </nav>
 
     <!-- HERO -->
-    <section class="relative h-[420px] flex items-center px-16 overflow-hidden">
-
-        <div class="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent"></div>
-
-        <div class="relative z-10 max-w-xl">
-
-            <h1 class="text-5xl font-extrabold leading-tight mb-4">
-                Experience Luxury<br>Without Limits
-            </h1>
-
-            <p class="text-slate-300 mb-6">
-                Discover premium cars available instantly for booking.
-            </p>
-
-            <a href="#cars" class="bg-primary px-6 py-3 rounded-xl font-bold hover:bg-primary/90 transition">
-                Explore Collection
-            </a>
-
-        </div>
-
+    <section class="bg-blue-600 text-white py-20 text-center">
+        <h2 class="text-4xl font-extrabold mb-4">Find Your Perfect Ride</h2>
+        <p class="text-lg text-blue-100">Affordable, Reliable, Professional Car Rental</p>
     </section>
 
+    <!-- CARS -->
+    <section class="max-w-6xl mx-auto px-6 py-16">
 
-    <!-- AVAILABLE VEHICLES -->
-    <section id="cars" class="px-16 py-16">
-
-        <div class="flex justify-between items-center mb-10">
-            <div>
-                <h2 class="text-3xl font-extrabold">Available Vehicles</h2>
-                <p class="text-slate-400 text-sm">
-                    Showing <?= count($cars) ?> cars ready to rent
-                </p>
-            </div>
-        </div>
-
+        <h3 class="text-3xl font-bold mb-10 text-center">Available Cars</h3>
 
         <?php if (empty($cars)): ?>
-
-            <p class="text-slate-500">No cars available right now.</p>
-
+            <p class="text-center text-gray-500">No cars available</p>
         <?php else: ?>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
                 <?php foreach ($cars as $car): ?>
 
-                    <div
-                        class="group bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-primary/10 transition-all duration-300">
+                    <div class="bg-white rounded-2xl shadow hover:shadow-xl transition overflow-hidden">
 
-                        <!-- IMAGE -->
-                        <div class="relative h-52 bg-slate-800 flex items-center justify-center overflow-hidden">
-
+                        <div class="h-48 bg-gray-100 flex items-center justify-center">
                             <?php if ($car['image']): ?>
-                                <img src="<?= base_url('uploads/' . $car['image']) ?>"
-                                    class="h-full object-contain p-6 group-hover:scale-105 transition duration-500">
+                                <img src="<?= base_url('uploads/' . $car['image']) ?>" class="h-full object-contain p-4">
                             <?php else: ?>
-                                <div class="text-slate-500">No Image</div>
+                                <div class="text-gray-400">No Image</div>
                             <?php endif; ?>
-
                         </div>
 
-                        <!-- CONTENT -->
                         <div class="p-6">
-
-                            <h3 class="text-lg font-bold mb-1">
+                            <h4 class="text-xl font-bold mb-1">
                                 <?= esc($car['brand']) ?>         <?= esc($car['model']) ?>
-                            </h3>
+                            </h4>
 
-                            <p class="text-slate-400 text-xs mb-4">
+                            <p class="text-gray-500 text-sm mb-4">
                                 Year <?= esc($car['year']) ?>
                             </p>
 
-                            <div class="flex items-center justify-between">
-
+                            <div class="flex justify-between items-center">
                                 <div>
-                                    <span class="text-2xl font-extrabold text-primary">
+                                    <span class="text-2xl font-bold text-blue-600">
                                         $<?= esc($car['price_per_day']) ?>
                                     </span>
-                                    <span class="text-xs text-slate-400">/ day</span>
+                                    <span class="text-sm text-gray-500">/day</span>
                                 </div>
 
                                 <a href="<?= site_url('cars/' . $car['id']) ?>"
-                                    class="bg-primary text-white text-sm font-bold px-4 py-2 rounded-lg hover:bg-primary/90 transition">
-                                    Rent Now
+                                    class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
+                                    View
                                 </a>
-
                             </div>
-
                         </div>
 
                     </div>
@@ -154,12 +86,6 @@
         <?php endif; ?>
 
     </section>
-
-
-    <!-- FOOTER -->
-    <footer class="border-t border-slate-800 py-8 text-center text-slate-500 text-sm">
-        © <?= date('Y') ?> AutoLease Elite. All rights reserved.
-    </footer>
 
 </body>
 
