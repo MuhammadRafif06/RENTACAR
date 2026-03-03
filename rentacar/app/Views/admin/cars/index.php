@@ -72,7 +72,7 @@
                             </td>
 
                             <td class="px-6 py-4 font-bold">
-                                $<?= esc($car['price_per_day']) ?>
+                                Rp<?= esc($car['price_per_day']) ?>
                             </td>
 
                             <td class="px-6 py-4">

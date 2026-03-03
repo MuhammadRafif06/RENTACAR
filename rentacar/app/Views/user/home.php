@@ -27,6 +27,11 @@
                         </li>
 
                         <li class="nav-item">
+                            <a href="/" class="nav-link text-white">
+                                Home
+                            </a>
+
+                        <li class="nav-item">
                             <a href="<?= site_url('history') ?>" class="nav-link text-white">
                                 History
                             </a>
